@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 public abstract class Transport
 {
     public abstract double Speed { get; }
@@ -31,6 +34,7 @@ public abstract class Airplane : Transport
     public override double GetRange() => Range;
 }
 
+// Абстрактный класс "Корабль"
 public abstract class Ship : Transport
 {
     public override double Speed { get; }
@@ -42,6 +46,7 @@ public abstract class Ship : Transport
     public override double GetRange() => Range;
 }
 
+// Конкретный класс "Легковой автомобиль"
 public class PassengerCar : Car
 {
     public override double Speed { get; } = 120.0;
@@ -62,7 +67,7 @@ public class Airplane1 : Airplane
 
     public override string ToString()
     {
-        return $"Самолет грузоподcъемностью {GetCapacity()} может пролететь {GetRange()}";
+        return $"Самолет грузоподъемностью {GetCapacity()} может пролететь {GetRange()}";
     }
 }
 
@@ -77,4 +82,81 @@ public class Ship1 : Ship
         return $"Корабль грузоподъемностью {GetCapacity()} может проплыть {GetRange()}";
     }
 }
-            
+
+public class User
+{
+    private string _login;
+    private string _password;
+
+    public User(string login, string password)
+    {
+        _login = login;
+        _password = password;
+    }
+
+    public string Login
+    {
+        get { return _login; }
+    }
+
+    public string Password
+    {
+        get { return _password; }
+    }
+}
+
+// Класс "Менеджер пользователей"
+public class UserManager
+{
+    private List<User> _users;
+
+    public UserManager()
+    {
+        _users = new List<User>();
+    }
+
+    public void RegisterUser(string login, string password)
+    {
+        User user = new User(login, password);
+        _users.Add(user);
+    }
+
+    public bool Login(string login, string password)
+    {
+        foreach (var user in _users)
+        {
+            if (user.Login == login && user.Password == password)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        UserManager userManager = new UserManager();
+
+        userManager.RegisterUser("user1", "password1");
+        userManager.RegisterUser("user2", "password2");
+        userManager.RegisterUser("user3", "password3");
+
+        Console.WriteLine("Вход в систему:");
+        Console.Write("Введите логин: ");
+        string login = Console.ReadLine();
+        Console.Write("Введите пароль: ");
+        string password = Console.ReadLine();
+
+        if (userManager.Login(login, password))
+        {
+            Console.WriteLine("Вход выполнен успешно!");
+        }
+        else
+        {
+            Console.WriteLine("Неверный логин или пароль.");
+        }
+    }
+}
